@@ -1,0 +1,31 @@
+<div id="schedulePage" class="o-page" aria-hidden="true">
+    <header class="c-header">
+        <button type="button" class="c-button--icon js-goto-home">
+            <svg class="c-icon" viewBox="0 0 16 16" preserveAspectRatio="xMidYMid meet">
+                <title>Voltar</title>
+                <path d="M16,7H3.8l5.6-5.6L8,0L0,8l8,8l1.4-1.4L3.8,9H16V7z" />
+            </svg>
+        </button>
+        <h1 class="c-heading-1 js-title"></h1>
+    </header>
+    <div class="o-tabs">
+        <ul class="o-tabs__list" role="tablist">
+            {%- for day in days -%}
+                <li role="tab" tabindex="0" id="tab-{{loop.index}}" data-dayofweek="{{day.id}}" class="js-tab" aria-controls="tabpanel-{{loop.index}}" aria-selected="">
+                    <span>{{day.label}}</span>
+                </li>
+            {%- endfor -%}
+        </ul>
+    </div>
+    <main class="o-main u-full-height">
+        <div class="c-card c-card--full-height">
+            <div class="u-relative u-full-height">
+                {%- for day in days -%}
+                    <div role="tabpanel" id="tabpanel-{{loop.index}}" data-dayofweek="{{day.id}}" class="o-panel o-panel--scrollable js-tabpanel" aria-labelledby="tab-{{loop.index}}" aria-hidden="">
+                        <ul class="c-schedule js-schedule"></ul>
+                    </div>
+                {%- endfor -%}
+            </div>
+        </div>
+    </main>
+</div>

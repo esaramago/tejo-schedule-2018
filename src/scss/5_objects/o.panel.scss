@@ -1,0 +1,17 @@
+.o-panel {
+    position: absolute;
+    top: -99999px;
+    right: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity .3s;
+    &[aria-hidden=false] {
+        position: relative;
+        top: 0;
+        opacity: 1;
+    }
+}
+.o-panel--scrollable {
+    height: 100%;
+    overflow: auto;
+}

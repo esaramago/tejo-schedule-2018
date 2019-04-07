@@ -1,0 +1,9 @@
+.o-main {
+    flex: 1;
+    overflow: auto;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 500px;
+    padding: var(--gap-sm);
+    margin: auto;
+}

@@ -1,0 +1,10 @@
+.o-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    min-width: 240px;
+    background-color: var(--color-grey-200);
+}

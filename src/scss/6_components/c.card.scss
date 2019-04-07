@@ -1,0 +1,18 @@
+
+.c-card {
+    box-sizing: border-box;
+    display: block;
+    padding: var(--gap) 0;
+    margin-bottom: var(--gap-sm);
+    border-radius: 2px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+}
+.c-card--full-height {
+    margin-bottom: 0;
+    height: 100%;
+}
+button.c-card {
+    width: 100%;
+    text-align: inherit;
+}

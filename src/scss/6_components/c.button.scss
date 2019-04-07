@@ -1,0 +1,9 @@
+.c-button {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-main-500);
+}
+.c-button--icon {
+    padding: var(--gap-sm);
+    margin: calc(var(--gap-sm) * -1);
+}

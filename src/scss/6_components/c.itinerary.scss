@@ -1,0 +1,32 @@
+.c-itinerary {
+    padding-bottom: var(--gap);
+    margin-bottom: var(--gap);
+    border-bottom: 1px solid var(--color-grey-200);
+    align-items: center;
+    font-size: 2rem;
+    line-height: 1;
+}
+.c-itinerary__arrow {
+    position: relative;
+    display: block;
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        padding: 6px;
+        margin: auto;
+        box-shadow: 1px -1px 0 0 var(--color-grey-500) inset;
+        transform: rotate(225deg);
+    }
+    &:after {
+        content: "";
+        display: block;
+        height: 1px;
+        background-color: var(--color-grey-500);
+    }
+}

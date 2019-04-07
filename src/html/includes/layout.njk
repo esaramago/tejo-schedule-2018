@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Horários tejo</title>
+    <meta name="Description" content="Author: esaramago, Category: Schedule">
+    <!--<link rel="alternate" href="horariostejo.firebaseapp.com" hreflang="pt" />-->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0077CC">
+    <meta name="msapplication-TileColor" content="#0077CC">
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- icons -->
+    <meta name="msapplication-TileImage" content="icons/icon-192x192.png">
+    <link rel="icon" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" sizes="96x96" href="icons/icon-96x96.png">
+    <link rel="icon" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="icon" sizes="512x512" href="icons/icon-512x512.png">
+
+    <link rel="stylesheet" href="main.css" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-118029889-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-118029889-1');
+    </script>-->
+</head>
+
+<body data-page-id="{{id}}">
+    <div class="o-wrapper">
+        {% block content %} {% endblock %}
+    </div>
+
+    <!--<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDleWqIgM6I9AtxjAvztwb1ToG0DfrcoQk",
+            authDomain: "horariostejo.firebaseapp.com",
+            databaseURL: "https://horariostejo.firebaseio.com",
+            projectId: "horariostejo",
+            storageBucket: "",
+            messagingSenderId: "389883290078"
+        };
+        firebase.initializeApp(config);
+    </script>-->
+
+    <script src="main.js"></script>
+    <!--<script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                .then(function (registration) {
+                    console.log('Service Worker Registered');
+                });
+
+            navigator.serviceWorker.ready.then(function (registration) {
+                console.log('Service Worker Ready');
+            });
+        }
+    </script>-->
+</body>
+
+</html>
