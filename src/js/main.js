@@ -7,13 +7,8 @@ const App = {
     PageId: null,
     Schedules: null,
     Schedule: null,
-
-    Current: {
-        DayOfWeek: '',
-        Time: null
-    },
-
-    Next: [],
+    CurrentDayOfWeek: '',
+    NextTimes: [],
 
     selectedDayOfWeek: null,
 
@@ -68,14 +63,14 @@ const App = {
             dayOfWeek = 'sunday';
         }
 
-        this.Current.DayOfWeek = dayOfWeek;
+        this.CurrentDayOfWeek = dayOfWeek;
         this.selectedDayOfWeek = dayOfWeek;
     },
     getNextTime() {
         
         this.Schedules.forEach((schedule, index) => {
 
-            var schedule = schedule.days.find(day => day.day === this.Current.DayOfWeek).schedule;
+            var schedule = schedule.days.find(day => day.day === this.CurrentDayOfWeek).schedule;
 
             schedule.find(time => {
 
@@ -88,9 +83,13 @@ const App = {
                 
                 // check if it's next
                 if (dateTime.getTime() > this.Now.getTime()) {
-                    time.isNext = true;
+
+                    // GOT THE NEXT TIME
+
+                    // Set next time
                     this.DOM.Itineraries[index].textContent = dateTime.toLocaleTimeString('PT-pt', { hour: 'numeric', minute: "2-digit"}) // Populate itineraries
-                    return this.Next.push(dateTime); // GOT THE NEXT TIME
+                    return time.isNext = true;
+                
                 };
             });
         });
@@ -150,7 +149,7 @@ const App = {
         this.DOM.Pages.Schedule.setAttribute("aria-hidden", true);
 
         // reset tab selection
-        this.selectedDayOfWeek = this.Current.DayOfWeek;
+        this.selectedDayOfWeek = this.CurrentDayOfWeek;
     },
     selectTab() {
 
