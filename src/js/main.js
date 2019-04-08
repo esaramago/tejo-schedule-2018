@@ -3,7 +3,7 @@ import data from '../data/data.json';
 
 const App = {
     Data: data,
-    Now: new Date,
+    Now: new Date(),
     PageId: null,
     Schedules: null,
     Schedule: null,
@@ -13,6 +13,8 @@ const App = {
         Time: null
     },
 
+    Next: [],
+
     selectedDayOfWeek: null,
 
     DOM: {
@@ -20,7 +22,7 @@ const App = {
             Home: document.getElementById('homePage'),
             Schedule: document.getElementById('schedulePage')
         },
-        //Itineraries: document.querySelector('.js-itineraries'),
+        Itineraries: document.querySelectorAll('.js-next-time'),
         Title: document.querySelector('.js-title'),
         Schedules: document.querySelectorAll('.js-schedule'),
         Tabs: document.querySelectorAll('.js-tab'),
@@ -41,12 +43,9 @@ const App = {
     // GET/SET
     getDayOfWeek() {
 
-        var hours = this.Now.getHours();
-        var isAfterMidnight = hours >= 0 && hours < 5;
-
         // get weekday (sunday is 0, monday is 1, and so on.)
         var weekday = this.Now.getDay();
-        if (isAfterMidnight) {
+        if (this.isAfterMidnight(this.Now)) {
 
             // Fix current weekday - make today yesterday
             weekday = weekday - 1;
@@ -74,16 +73,32 @@ const App = {
     },
     getNextTime() {
         
-        var time = this.Now.getTime();
-        
-        this.Schedules.forEach(schedule => {
+        this.Schedules.forEach((schedule, index) => {
+
             var schedule = schedule.days.find(day => day.day === this.Current.DayOfWeek).schedule;
 
-            schedule.forEach(time => {
-                var dateTime = new Date(time)
+            schedule.find(time => {
+
+                // build dateTime based on time
+                var dateTime = new Date(this.Now);
+                dateTime.setHours(time.hour, time.minute, 0);
+                if (this.isAfterMidnight(dateTime)) {
+                    dateTime.setDate(dateTime.getDate() + 1); // add one day
+                }
+                
+                // check if it's next
+                if (dateTime.getTime() > this.Now.getTime()) {
+                    time.isNext = true;
+                    this.DOM.Itineraries[index].textContent = dateTime.toLocaleTimeString('PT-pt', { hour: 'numeric', minute: "2-digit"}) // Populate itineraries
+                    return this.Next.push(dateTime); // GOT THE NEXT TIME
+                };
             });
-            debugger
-        })
+        });
+
+    },
+    isAfterMidnight(date) {
+        var hours = date.getHours();
+        return hours >= 0 && hours < 5;
     },
 
     // EVENTS
@@ -116,6 +131,7 @@ const App = {
 
         this.renderTitle();
         this.renderSchedule();
+        this.getNextTime();
         this.selectTab();
 
         // close Home page tab
@@ -154,6 +170,10 @@ const App = {
     },
     scrollToCurrentTime() {
 
+        // scroll to current time schedule
+        setTimeout(() => {
+            document.querySelector(".is-next").scrollIntoView({ block: "center" });
+        }, 400);
     },
 
 
@@ -165,9 +185,8 @@ const App = {
         this.DOM.Schedules.forEach((schedule, i) => {
             var html = '';
             this.Schedule.days[i].schedule.forEach((time, j) => {
-                var isNext = null;
                 html += `
-                    <li ${isNext ? 'class="is-next"' : ''}>
+                    <li ${time.isNext ? 'class="is-next"' : ''}>
                         <span>${time.hour}:${time.minute}</span>
                     </li>
                 `;

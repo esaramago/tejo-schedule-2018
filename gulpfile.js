@@ -11,6 +11,7 @@ const nunjucksRender = require('gulp-nunjucks-render');
 const data = require('gulp-data');
 const rename = require('gulp-rename');
 const clean = require('gulp-clean');
+const htmlmin = require('gulp-htmlmin');
 
 const browserify = require('browserify');
 const envify = require('envify/custom');
@@ -59,6 +60,10 @@ function html() {
             path: srcPath
         }))
         .pipe(rename(path => path.extname = ".html"))
+        .pipe(htmlmin({
+            collapseWhitespace: true,
+            removeComments: isProd
+        }))
         .pipe(gulp.dest(destPath));
 }
 gulp.task('html', html);
@@ -99,11 +104,11 @@ function scripts() {
         .pipe(buffer())
 
         // minify
-        .pipe(sourcemaps.init({ loadMaps: true }))
+        /* .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify({
             compress: { drop_debugger: isProd }
         }))
-        .pipe(sourcemaps.write(''))
+        .pipe(sourcemaps.write('')) */
         .pipe(gulp.dest(destPath));
 }
 gulp.task('scripts', scripts);
