@@ -71,7 +71,7 @@ gulp.task('html', html);
 
 function styles() {
 
-    return src(stylesPath + '/main.scss')
+    return src(stylesPath + '/*.scss')
 
         .pipe(plumber())
 
@@ -84,7 +84,7 @@ function styles() {
 
         .pipe(sourcemaps.write(''))
 
-        .pipe(dest(destPath));
+        .pipe(dest(destPath + '/css'));
 }
 gulp.task('styles', styles);
 
@@ -104,11 +104,11 @@ function scripts() {
         .pipe(buffer())
 
         // minify
-        /* .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify({
             compress: { drop_debugger: isProd }
         }))
-        .pipe(sourcemaps.write('')) */
+        .pipe(sourcemaps.write(''))
         .pipe(gulp.dest(destPath));
 }
 gulp.task('scripts', scripts);

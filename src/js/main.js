@@ -3,14 +3,12 @@ import data from '../data/data.json';
 
 const App = {
     Data: data,
-    Now: new Date(),
+    Now: new Date(2019,4,9,0,1),
     PageId: null,
     Schedules: null,
     Schedule: null,
     CurrentDayOfWeek: '',
     NextTimes: [],
-
-    selectedDayOfWeek: null,
 
     DOM: {
         Pages: {
@@ -21,8 +19,12 @@ const App = {
         Title: document.querySelector('.js-title'),
         Schedules: document.querySelectorAll('.js-schedule'),
         Tabs: document.querySelectorAll('.js-tab'),
-        TabPanels: document.querySelectorAll('.js-tabpanel')
+        TabPanels: document.querySelectorAll('.js-tabpanel'),
+
+        Waiting: document.querySelectorAll('.is-waiting')
     },
+
+    selectedDayOfWeek: null,
 
     init() {
 
@@ -33,6 +35,11 @@ const App = {
         this.getDayOfWeek();
         this.getNextTime();
         this.createNavigation();
+
+        // show hidden elements
+        this.DOM.Waiting.forEach(el => {
+            el.classList.remove('is-waiting');
+        });
     },
 
     // GET/SET

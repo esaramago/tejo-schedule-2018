@@ -1,10 +1,5 @@
 .o-row {
-    display: flex;
-    padding-right: var(--gap);
-    padding-left: var(--gap);
-    > * + * {
-        padding-left: var(--gap);
-    }
+    @include row;
 }
 /* .o-row--grouped {
     padding-right: var(--gap-sm);

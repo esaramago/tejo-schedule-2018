@@ -1,7 +1,11 @@
 <div id="homePage" class="o-page is-active" aria-hidden="false">
+
+    <link rel="stylesheet" href="css/components.head.css" />
     <header class="c-header">
         <h1 class="c-heading-1">Horários Tejo</h1>
     </header>
+    
+    <link rel="stylesheet" href="css/components.body.css" />
     <main class="o-main">
         {%- for itinerary in itineraries -%}
             <button type="button" class="c-card js-goto-schedule" data-way="{{itinerary.way}}">
@@ -20,7 +24,7 @@
                         <span class="js-next-time"></span>
                     </div>
                     <div>
-                        <span class="c-button">Ver Horários</span>
+                        <span class="c-button is-waiting">Ver Horários</span>
                     </div>
                 </div>
             </button>

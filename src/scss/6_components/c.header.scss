@@ -1,6 +1,6 @@
 .c-header {
-    @extend .o-row;
-    @extend .o-row--middle;
+    @include row;
+    align-items: center;
     height: 55px;
     padding: 0 var(--gap);
     background-color: var(--color-main-500);
