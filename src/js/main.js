@@ -3,12 +3,12 @@ import data from '../data/data.json';
 
 const App = {
     Data: data,
-    Now: new Date(2019,4,9,0,1),
+    //Now: new Date(2019,3,8,3,0),
+    Now: new Date(),
     PageId: null,
     Schedules: null,
     Schedule: null,
     CurrentDayOfWeek: '',
-    NextTimes: [],
 
     DOM: {
         Pages: {
@@ -78,18 +78,20 @@ const App = {
         this.Schedules.forEach((schedule, index) => {
 
             var schedule = schedule.days.find(day => day.day === this.CurrentDayOfWeek).schedule;
+            var lastTime = schedule[schedule.length - 1];
 
             schedule.find(time => {
 
                 // build dateTime based on time
+                var now = new Date(this.Now);
                 var dateTime = new Date(this.Now);
                 dateTime.setHours(time.hour, time.minute, 0);
-                if (this.isAfterMidnight(dateTime)) {
-                    dateTime.setDate(dateTime.getDate() + 1); // add one day
+                if (this.isAfterMidnight(now, lastTime) && !this.isAfterMidnight(dateTime, lastTime)) {
+                    dateTime.setDate(dateTime.getDate() - 1); // remove one day
                 }
-                
+
                 // check if it's next
-                if (dateTime.getTime() > this.Now.getTime()) {
+                if (dateTime.getTime() > now.getTime()) {
 
                     // GOT THE NEXT TIME
 
@@ -102,9 +104,12 @@ const App = {
         });
 
     },
-    isAfterMidnight(date) {
-        var hours = date.getHours();
-        return hours >= 0 && hours < 5;
+    isAfterMidnight(date, lastTime) {
+
+        var afterMidnight = date.getHours() >= 0;
+        var beforeLastTime = date < 3/* lastTime */;
+
+        return afterMidnight && beforeLastTime; // todo: ver se date está entre a meia noite e a último horário
     },
 
     // EVENTS

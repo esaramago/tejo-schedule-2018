@@ -104,11 +104,11 @@ function scripts() {
         .pipe(buffer())
 
         // minify
-        .pipe(sourcemaps.init({ loadMaps: true }))
+        /* .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify({
             compress: { drop_debugger: isProd }
         }))
-        .pipe(sourcemaps.write(''))
+        .pipe(sourcemaps.write('')) */
         .pipe(gulp.dest(destPath));
 }
 gulp.task('scripts', scripts);
