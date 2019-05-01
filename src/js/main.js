@@ -3,11 +3,13 @@ import data from '../data/data.json';
 
 const App = {
     Data: data,
-    //Now: new Date(2019,3,8,3,0),
     Now: new Date(),
+    //Now: new Date(2019, 5-1, 2, 6, 10),
     PageId: null,
+
     Schedules: null,
-    Schedule: null,
+    CurrentWay: null,
+    CurrentSchedule: null,
     CurrentDayOfWeek: '',
 
     DOM: {
@@ -24,7 +26,7 @@ const App = {
         Waiting: document.querySelectorAll('.is-waiting')
     },
 
-    selectedDayOfWeek: null,
+    selectedDayOfWeek: null, // selected tab
 
     init() {
 
@@ -32,8 +34,10 @@ const App = {
         this.PageId = document.body.dataset.pageId;
         this.Schedules = this.Data[this.PageId];
 
-        this.getDayOfWeek();
-        this.getNextTime();
+        this.Schedules.forEach((way, index) => {
+            this.getDayOfWeek(way);
+            this.getNextTime(index);
+        });
         this.createNavigation();
 
         // show hidden elements
@@ -43,22 +47,60 @@ const App = {
     },
 
     // GET/SET
-    getDayOfWeek() {
+    getDayOfWeek(way) {
+        
+        // get today's first dateTime based on array time
+        var weekday = this.getWeekday(this.Now); // get weekday
+        var schedule = way.days.find(x => x.day == weekday).schedule; // get today's schedule
+        var firstTime = new Date(this.Now);
+        firstTime.setHours(schedule[0].hour, schedule[0].minute, 0);
 
-        // get weekday (sunday is 0, monday is 1, and so on.)
-        var weekday = this.Now.getDay();
-        if (this.isAfterMidnight(this.Now)) {
+        // get yesterday's last dateTime based on array time
+        var yesterday = new Date(this.Now); yesterday.setDate(yesterday.getDate() - 1);
+        var yesterdayWeekday = this.getWeekday(yesterday); // get weekday
+        var yesterdaySchedule = way.days.find(x => x.day == yesterdayWeekday).schedule; // get yesterday's schedule
+        var yesterdayLastArrayTime = yesterdaySchedule[yesterdaySchedule.length - 1];
+        var yesterdayLastTime = new Date(yesterday);
+        yesterdayLastTime.setHours(yesterdayLastArrayTime.hour, yesterdayLastArrayTime.minute, 0);
 
-            // Fix current weekday - make today yesterday
-            weekday = weekday - 1;
-            this.Now.setDate(this.Now.getDate() - 1);
-
-            // if sunday gets a negative value, make it saturday
-            if (weekday == -1) {
-                weekday = 6;
-            }
+        if (this.Now.getTime() < yesterdayLastTime.getTime()) { // check if now is in yesterday's schedule
+            weekday = yesterdayWeekday;
+            schedule = yesterdaySchedule;
         }
+        this.CurrentDayOfWeek = weekday;
+        this.CurrentSchedule = schedule;
+        this.selectedDayOfWeek = weekday;
 
+    },
+    getNextTime(index) {
+
+        this.CurrentSchedule.find(time => {
+
+            // build dateTime based on time
+            var now = new Date(this.Now);
+            var dateTime = new Date(this.Now); // time of schedule
+            dateTime.setHours(time.hour, time.minute, 0);
+
+            if (now.getHours() < 5 && dateTime.getHours() >= 5) { // ToDo: alterar 5 para último horário 
+                dateTime.setDate(dateTime.getDate() - 1); // set tomorrow
+            }
+
+            // check if it's next
+            if (dateTime.getTime() > now.getTime()) {
+
+                // GOT THE NEXT TIME
+
+                // Set next time
+                this.DOM.Itineraries[index].textContent = dateTime.toLocaleTimeString('PT-pt', { hour: 'numeric', minute: "2-digit" }) // Populate itineraries
+                return time.isNext = true;
+
+            };
+        });
+
+    },
+    getWeekday(date) {
+
+        var weekday = date.getDay();
         var dayOfWeek;
         if (weekday >= 1 && weekday <= 5) {
             dayOfWeek = 'weekday';
@@ -70,46 +112,7 @@ const App = {
             dayOfWeek = 'sunday';
         }
 
-        this.CurrentDayOfWeek = dayOfWeek;
-        this.selectedDayOfWeek = dayOfWeek;
-    },
-    getNextTime() {
-        
-        this.Schedules.forEach((schedule, index) => {
-
-            var schedule = schedule.days.find(day => day.day === this.CurrentDayOfWeek).schedule;
-            var lastTime = schedule[schedule.length - 1];
-
-            schedule.find(time => {
-
-                // build dateTime based on time
-                var now = new Date(this.Now);
-                var dateTime = new Date(this.Now);
-                dateTime.setHours(time.hour, time.minute, 0);
-                if (this.isAfterMidnight(now, lastTime) && !this.isAfterMidnight(dateTime, lastTime)) {
-                    dateTime.setDate(dateTime.getDate() - 1); // remove one day
-                }
-
-                // check if it's next
-                if (dateTime.getTime() > now.getTime()) {
-
-                    // GOT THE NEXT TIME
-
-                    // Set next time
-                    this.DOM.Itineraries[index].textContent = dateTime.toLocaleTimeString('PT-pt', { hour: 'numeric', minute: "2-digit"}) // Populate itineraries
-                    return time.isNext = true;
-                
-                };
-            });
-        });
-
-    },
-    isAfterMidnight(date, lastTime) {
-
-        var afterMidnight = date.getHours() >= 0;
-        var beforeLastTime = date < 3/* lastTime */;
-
-        return afterMidnight && beforeLastTime; // todo: ver se date está entre a meia noite e a último horário
+        return dayOfWeek;
     },
 
     // EVENTS
@@ -138,11 +141,14 @@ const App = {
     // DOM MANIPULATION
     goToSchedulePage(way) {
 
-        this.Schedule = this.Schedules.find(x => x.way === way);
+        var wayIndex = this.Schedules.findIndex(x => x.way === way);
+        this.CurrentWay = this.Schedules[wayIndex];
+
+        this.getDayOfWeek(this.CurrentWay);
+        this.getNextTime(wayIndex);
 
         this.renderTitle();
         this.renderSchedule();
-        this.getNextTime();
         this.selectTab();
 
         // close Home page tab
@@ -190,12 +196,12 @@ const App = {
 
     // RENDER
     renderTitle() {
-        this.DOM.Title.textContent = `${this.Schedule.departure} - ${this.Schedule.arrival}`;
+        this.DOM.Title.textContent = `${this.CurrentWay.departure} - ${this.CurrentWay.arrival}`;
     },
     renderSchedule() {
         this.DOM.Schedules.forEach((schedule, i) => {
             var html = '';
-            this.Schedule.days[i].schedule.forEach((time, j) => {
+            this.CurrentWay.days[i].schedule.forEach((time, j) => {
                 html += `
                     <li ${time.isNext ? 'class="is-next"' : ''}>
                         <span>${time.hour}:${time.minute}</span>

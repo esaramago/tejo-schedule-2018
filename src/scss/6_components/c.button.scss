@@ -4,6 +4,8 @@
     color: var(--color-main-500);
 }
 .c-button--icon {
+    position: relative;
+    z-index: 1; // keep button in front of other elements
     padding: var(--gap-sm);
     margin: calc(var(--gap-sm) * -1);
 }
