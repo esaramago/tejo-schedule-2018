@@ -1,0 +1,24 @@
+.c-nav {
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    padding: var(--gap-sm) var(--gap);
+    background-color: #FFF;
+    box-shadow: -2px 2px 3px 1px rgba(0,0,0,0.1);
+}
+.c-nav__title {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--color-grey-500);
+    font-size: 1.3rem;
+}
+.c-nav__link {
+    display: block;
+    margin: 0 calc(var(--gap) * -1);
+    padding: 4px var(--gap);
+    color: #000;
+    transition: background-color .2s;
+    .is-active {
+        background-color: var(--color-main-300);
+    }
+}

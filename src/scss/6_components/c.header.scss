@@ -1,9 +1,12 @@
 .c-header {
     @include row;
     align-items: center;
-    height: 55px;
+    height: var(--header-height);
     padding: 0 var(--gap);
     background-color: var(--color-main-500);
     color: #FFF;
     fill: #FFF;
+}
+.c-header__right {
+    margin-left: auto;
 }
