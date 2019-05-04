@@ -142,6 +142,7 @@ const App = {
 
         document.addEventListener('click', (event) => {
 
+            var nav = document.querySelector('.js-nav');
             var clickedElement = event.currentTarget.activeElement;
 
             if (clickedElement.matches('.js-goto-schedule')) {
@@ -154,6 +155,14 @@ const App = {
             else if (clickedElement.matches('.js-tab')) {
                 this.SelectedDayOfWeek = clickedElement.dataset.dayofweek;
                 this.selectTab();
+            }
+            else if (clickedElement.matches('.js-toggle-nav')) {
+                nav.classList.toggle('is-open');
+            }
+
+            // check if clicked elements is not nav
+            if (event.target !== nav && !nav.contains(event.target) && !clickedElement.matches('.js-toggle-nav')) {
+                nav.classList.remove('is-open');
             }
 
         }, false);
