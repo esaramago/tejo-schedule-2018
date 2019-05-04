@@ -1,7 +1,5 @@
 // Credits: https://airhorner.com
 
-importScript("https://unpkg.com/workbox-sw@2.1.0/build/importScripts/workbox-sw.prod.v2.1.0.js");
-
 const version = "0.1.1";
 const cacheName = `horariostejo-${version}`;
 self.addEventListener('install', e => {
@@ -11,10 +9,10 @@ self.addEventListener('install', e => {
                 `/`,
                 `/index.html`,
                 `/seixal.html`,
-                `/css/*.css`,
+                `/css/`,
                 `/main.js`
             ])
-                .then(() => self.skipWaiting());
+            .then(() => self.skipWaiting());
         })
     );
 });

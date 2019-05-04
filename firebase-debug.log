@@ -1,0 +1,25 @@
+[debug] [2019-05-04T14:09:01.391Z] ----------------------------------------------------------------------
+[debug] [2019-05-04T14:09:01.393Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Emanuel\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2019-05-04T14:09:01.394Z] CLI Version:   6.8.0
+[debug] [2019-05-04T14:09:01.394Z] Platform:      win32
+[debug] [2019-05-04T14:09:01.394Z] Node Version:  v8.9.4
+[debug] [2019-05-04T14:09:01.394Z] Time:          Sat May 04 2019 15:09:01 GMT+0100 (Hora de Verão de GMT)
+[debug] [2019-05-04T14:09:01.394Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-05-04T14:09:01.405Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-05-04T14:09:01.406Z] > authorizing via signed-in user
+[debug] [2019-05-04T14:09:01.406Z] [iam] checking project horariostejo for permissions ["firebase.projects.get"]
+[debug] [2019-05-04T14:09:01.408Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/horariostejo:testIamPermissions  
+
+[debug] [2019-05-04T14:09:02.320Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-04T14:09:02.336Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/horariostejo  
+ 
+[debug] [2019-05-04T14:09:03.168Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'D:\Trabalho\www\apps\tejo-schedule-2019'...
+[info] 
+[debug] [2019-05-04T14:09:03.171Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/389883290078/clients/_:getWebAppConfig  
+ 
+[debug] [2019-05-04T14:09:03.509Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: app
+[info] +  hosting: Local server: http://localhost:5000

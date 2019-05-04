@@ -42,7 +42,7 @@
     <link rel="stylesheet" href="css/components.hidden.css" />
     <link rel="stylesheet" href="css/utilities.css" />
 
-    <!--<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
     <script>
         // Initialize Firebase
         var config = {
@@ -54,12 +54,12 @@
             messagingSenderId: "389883290078"
         };
         firebase.initializeApp(config);
-    </script>-->
+    </script>
 
     <script src="main.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            navigator.serviceWorker.register('./sw.js', { scope: './' })
                 .then(function (registration) {
                     console.log('Service Worker Registered');
                 });
