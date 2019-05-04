@@ -4,7 +4,7 @@
     right: 0;
     bottom: 0;
     z-index: 2;
-    padding: var(--gap-sm) var(--gap);
+    padding: var(--gap);
     background-color: #FFF;
     box-shadow: -2px 2px 3px 1px rgba(0,0,0,0.1);
     transform: translate(100%);
@@ -16,14 +16,14 @@
 }
 .c-nav__title {
     display: block;
-    margin-bottom: var(--gap-xs);
+    margin-bottom: var(--gap-sm);
     color: var(--color-grey-500);
     font-size: 1.3rem;
 }
 .c-nav__link {
     display: block;
     margin: 0 calc(var(--gap) * -1);
-    padding: var(--gap-xs) var(--gap);
+    padding: var(--gap-sm) var(--gap);
     color: #000;
     transition: background-color .2s;
     .is-active {

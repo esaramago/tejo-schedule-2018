@@ -8,8 +8,13 @@ self.addEventListener('install', e => {
             return cache.addAll([
                 `/`,
                 `/index.html`,
+                `/404.html`,
                 `/seixal.html`,
-                `/css/`,
+                `/css/base.css`,
+                `/css/components.head.css`,
+                `/css/components.body.css`,
+                `/css/components.hidden.css`,
+                `/css/utilities.css`,
                 `/main.js`
             ])
             .then(() => self.skipWaiting());
