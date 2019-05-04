@@ -39,6 +39,9 @@ const App = {
         this.PageId = document.body.dataset.pageId;
         this.Current.Hub = this.Data[this.PageId];
 
+        this.goToDefaultPage();
+
+        // get data
         this.Current.Hub.forEach((way, index) => {
             this.getDayOfWeek(way);
             this.getNextTime(index);
@@ -159,6 +162,9 @@ const App = {
             else if (clickedElement.matches('.js-toggle-nav')) {
                 nav.classList.toggle('is-open');
             }
+            else if (event.target.matches('.js-nav-link')) {
+                this.goToHub(event.target);
+            }
 
             // check if clicked elements is not nav
             if (event.target !== nav && !nav.contains(event.target) && !clickedElement.matches('.js-toggle-nav')) {
@@ -241,6 +247,26 @@ const App = {
             });
             this.DOM.Schedules[i].innerHTML = html;
         });
+    },
+
+    // NAVIGATION
+
+    goToDefaultPage() {
+        var hub = localStorage.getItem('hub'); // get default page
+        if(hub && hub !== this.PageId) { // check if current page is not the default page
+            var url = (hub) ? `${hub}.html` : '';
+            window.location = './' + url;
+        }
+    },
+    goToHub(btn) {
+        var hub = btn.dataset.target;
+
+        // save default page to localstorage
+        localStorage.setItem('hub', hub);
+        
+        // go to page
+        var url = (hub) ? `${hub}.html` : '';
+        window.location = './' + url;
     }
 }
 
