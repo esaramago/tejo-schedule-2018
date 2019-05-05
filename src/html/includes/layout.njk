@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Horários tejo</title>
+    <title>Horários tejo - {{id}}</title>
     <meta name="Description" content="Author: esaramago, Category: Schedule">
     <!--<link rel="alternate" href="horariostejo.firebaseapp.com" hreflang="pt" />-->
 
@@ -34,6 +34,7 @@
 </head>
 
 <body data-page-id="{{id}}">
+    <h1 class="is-visually-hidden">Horários das travessias de barco no rio Tejo para {{id}}</h1>
     <div class="o-wrapper">
         {% block content %} {% endblock %}
         {% include 'html/includes/nav.njk' %}
