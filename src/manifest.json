@@ -6,7 +6,6 @@
   "lang": "pt-PT",
   "description": "Horários das travessias de barco do Tejo, operados pela Soflusa.",
   "display": "standalone",
-  "orientation": "portrait",
   "theme_color": "#0077CC",
   "background_color": "#FFFFFF",
   "icons": [

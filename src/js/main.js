@@ -4,7 +4,9 @@ import data from '../data/data.json';
 const App = {
     Data: data,
     Now: new Date(),
-    //Now: new Date(2019, 5-1, 3, 1, 55),
+    //Now: new Date(2019, 5-1, 4, 23, 0),
+    //Now: new Date(2019, 5-1, 5, 0, 1),
+    //Now: new Date(2019, 5-1, 5, 3, 0),
     PageId: null,
 
     CurrentDayOfWeek: '',
@@ -14,7 +16,9 @@ const App = {
         Way: null,
         Schedule: null,
         DayOfWeek: '',
-        IsBetweenSchedules: null
+        IsYesterday: null,
+        IsToday: null,
+        IsTomorrow: null
     },
 
     SelectedDayOfWeek: null, // selected tab
@@ -56,59 +60,112 @@ const App = {
 
     // GET/SET
     getDayOfWeek(way) {
-        
-        // get today's first dateTime based on array time
-        var weekday = this.getWeekday(this.Now); // get weekday
-        var schedule = way.days.find(x => x.day == weekday).schedule; // get today's schedule
-        var firstTime = new Date(this.Now);
-        firstTime.setHours(schedule[0].h, schedule[0].m, 0);
 
-        // get yesterday's last dateTime based on array time
+        /* Objective: get the following times, to make the if's:
+             - yesterday's last time
+             - today's first time
+             - today's last time
+        */
+
+        // Get weekdays ===========================
+
+        // get yesterday's weekday
         var yesterday = new Date(this.Now); yesterday.setDate(yesterday.getDate() - 1);
-        var yesterdayWeekday = this.getWeekday(yesterday); // get weekday
-        var yesterdaySchedule = way.days.find(x => x.day == yesterdayWeekday).schedule; // get yesterday's schedule
+        var yesterdayWeekday = this.getWeekday(yesterday);
+
+        // get today's weekday
+        var weekday = this.getWeekday(this.Now);
+
+        // get tomorrow's weekday
+        var tomorrow = new Date(this.Now); tomorrow.setDate(tomorrow.getDate() + 1);
+        var tomorrowWeekday = this.getWeekday(tomorrow);
+
+
+        // Get schedules ===========================
+
+        // get yesterday's schedule
+        var yesterdaySchedule = way.days.find(x => x.day == yesterdayWeekday).schedule;
+
+        // get today's schedule
+        var schedule = way.days.find(x => x.day == weekday).schedule;
+
+
+        // Get dateTimes ===========================
+
+        // get yesterday's last dateTime
         var yesterdayLastArrayTime = yesterdaySchedule[yesterdaySchedule.length - 1];
-        
-        if (yesterdayLastArrayTime) {
+        var yesterdayLastTime = yesterdayLastArrayTime.am ? new Date(this.Now) : new Date(yesterday); // check if yesterday's last time is after midnight and set day according that (yesterday or today) - (am === after midnight)
+        yesterdayLastTime.setHours(yesterdayLastArrayTime.h, yesterdayLastArrayTime.m, 0);
 
-            // get yesterday's last time
-            var yesterdayLastTime;
-            if (yesterdayLastArrayTime.h >= 5) { // if last time is after 5:00, I assume that it's still yesterday
-                yesterdayLastTime = new Date(yesterday);
-            }
-            else { // if last time is before 5:00 (after midnight), I assume that it's today
-                yesterdayLastTime = new Date(this.Now);
-            }
-            yesterdayLastTime.setHours(yesterdayLastArrayTime.h, yesterdayLastArrayTime.m, 0);
-            
-            // check if now is in yesterday's schedule
-            if (this.Now.getTime() < yesterdayLastTime.getTime()) {
-                weekday = yesterdayWeekday;
-                schedule = yesterdaySchedule;
-            }
+        // get today's first dateTime
+        var firstArrayTime = schedule[0];
+        var firstTime = new Date(this.Now);
+        firstTime.setHours(firstArrayTime.h, firstArrayTime.m, 0);
 
-            // set weekday and schedule 
+        // get today's last dateTime
+        var lastArrayTime = schedule[schedule.length - 1];
+        var lastTime = lastArrayTime.am ? new Date(tomorrow) : new Date(this.Now); // check if today's last time is after midnight and set day according that (today or tomorrow) - (am === after midnight)
+        lastTime.setHours(lastArrayTime.h, lastArrayTime.m, 0);
+
+
+        // check if now is in yesterday's schedule
+        var now = this.Now.getTime();
+        if (now > yesterdayLastTime.getTime() && now < lastTime.getTime()) {
+
+            // set weekday and schedule as today
             this.Current.DayOfWeek = weekday;
             this.Current.Schedule = schedule;
             this.SelectedDayOfWeek = weekday;
+            this.Current.IsToday = true;
+        }
+        else {
 
-            // check if now is between schedules
-            this.Current.IsBetweenSchedules = this.Now.getTime() > yesterdayLastTime.getTime() && this.Now.getTime() < firstTime.getTime();
+            if (now < firstTime.getTime()) {
+
+                // set weekday and schedule as yesterday
+                this.Current.DayOfWeek = yesterdayWeekday;
+                this.Current.Schedule = yesterdaySchedule;
+                this.SelectedDayOfWeek = yesterdayWeekday;
+                this.Current.IsYesterday = true;
+            }
+            else {
+
+                // case: when last time is before midnight and now it's after that
+
+                // get tomorrow's schedule
+                var tomorrowSchedule = way.days.find(x => x.day == tomorrowWeekday).schedule;
+
+                // set weekday and schedule as tomorrow
+                this.Current.DayOfWeek = tomorrowWeekday;
+                this.Current.Schedule = tomorrowSchedule;
+                this.SelectedDayOfWeek = tomorrowWeekday;
+                this.Current.IsTomorrow = true;
+            }
 
         }
-
     },
     getNextTime(index) {
+
+        console.log(this.Current.DayOfWeek);
 
         this.Current.Schedule.find(time => {
 
             // build dateTime based on time
-            var dateTime = new Date(this.Now); // time of schedule
-            dateTime.setHours(time.h, time.m, 0);
+            var dateTime = new Date(this.Now);
+            dateTime.setHours(time.h, time.m, 0); // time of schedule
 
-            if (!this.Current.IsBetweenSchedules && this.Now.getHours() < 5 && dateTime.getHours() >= 5) { // ToDo: alterar 5 para último horário 
-                dateTime.setDate(dateTime.getDate() - 1); // set tomorrow
-            }
+
+            // Day fix ================
+            if (this.Current.IsYesterday && !time.am) // next time is before midnight
+                dateTime.setDate(dateTime.getDate() - 1) // set as yesterday
+
+            if (this.Current.IsTomorrow) // next time is tomorrow
+                dateTime.setDate(dateTime.getDate() + 1) // set as tomorrow
+
+            if (this.Current.IsToday && time.am) // schedule is from today, but next time is after midnight
+                dateTime.setDate(dateTime.getDate() + 1) // set as tomorrow
+            
+
 
             // check if it's next
             if (dateTime.getTime() > this.Now.getTime()) {

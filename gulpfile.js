@@ -19,6 +19,7 @@ const babelify = require('babelify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const uglify = require('gulp-uglify');
+const gulpif = require('gulp-if');
 
 
 // Settings ====================================================
@@ -105,9 +106,7 @@ function scripts() {
 
         // minify
         .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(uglify({
-            compress: { drop_debugger: isProd }
-        }))
+        .pipe(gulpif(isProd, uglify()))
         .pipe(sourcemaps.write(''))
         .pipe(gulp.dest(destPath));
 }
