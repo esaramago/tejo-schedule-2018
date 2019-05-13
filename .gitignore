@@ -2,3 +2,4 @@ node_modules
 app
 package-lock.json
 firebase-debug.log
+.firebase

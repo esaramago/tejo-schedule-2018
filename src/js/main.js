@@ -8,6 +8,7 @@ const App = {
     //Now: new Date(2019, 5-1, 5, 0, 1),
     //Now: new Date(2019, 5-1, 5, 3, 0),
     PageId: null,
+    Hash: '#inicio',
 
     CurrentDayOfWeek: '',
 
@@ -229,6 +230,18 @@ const App = {
             }
 
         }, false);
+
+        // on back button
+        var app = this;
+        window.location.hash = this.Hash; // set default hash
+        window.addEventListener('hashchange', (e) => {
+            if (window.location.hash === '#inicio') {
+                app.goToHomePage();
+            }
+            else if (window.location.hash === '#horario') {
+                app.showSchedulePage();
+            }
+        });
     },
 
 
@@ -245,14 +258,19 @@ const App = {
         this.renderSchedule();
         this.selectTab();
 
+        this.showSchedulePage();
+
+        this.scrollToCurrentTime();
+
+        window.location.hash = 'horario';
+    },
+    showSchedulePage() {
         // close Home page tab
         this.DOM.Pages.Home.setAttribute("aria-hidden", true);
 
         // open Schedule page
         this.DOM.Pages.Schedule.classList.add("is-active");
         this.DOM.Pages.Schedule.setAttribute("aria-hidden", false);
-
-        this.scrollToCurrentTime();
     },
     goToHomePage() {
         this.DOM.Pages.Home.setAttribute("aria-hidden", false);
@@ -262,6 +280,8 @@ const App = {
 
         // reset tab selection
         this.SelectedDayOfWeek = this.Current.DayOfWeek;
+
+        window.location.hash = 'inicio';
     },
     selectTab() {
 
