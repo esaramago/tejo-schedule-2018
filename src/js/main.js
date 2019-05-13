@@ -7,8 +7,9 @@ const App = {
     //Now: new Date(2019, 5-1, 4, 23, 0),
     //Now: new Date(2019, 5-1, 5, 0, 1),
     //Now: new Date(2019, 5-1, 5, 3, 0),
+    Holidays: [],
+
     PageId: null,
-    Hash: '#inicio',
 
     CurrentDayOfWeek: '',
 
@@ -47,6 +48,7 @@ const App = {
         this.goToDefaultPage();
 
         // get data
+        //this.getHolidays();
         this.Current.Hub.forEach((way, index) => {
             this.getDayOfWeek(way);
             this.getNextTime(index);
@@ -60,6 +62,19 @@ const App = {
     },
 
     // GET/SET
+    getHolidays() {
+        var vm = this;
+        var Http = new XMLHttpRequest();
+        var url = `http://services.sapo.pt/Holiday/GetNationalHolidays?year=${this.Now.getFullYear()}`;
+        Http.open('GET', url);
+        Http.send();
+        Http.onreadystatechange = (e) => {
+            if (Http.responseText) {
+                vm.Holidays = new DOMParser().parseFromString(Http.responseText, "text/xml");
+                console.log(vm.Holidays.getElementsByTagName("Holiday")[0].querySelector("Date")/* .nodeValue */);
+            }
+        }
+    },
     getDayOfWeek(way) {
 
         /* Objective: get the following times, to make the if's:
@@ -233,7 +248,7 @@ const App = {
 
         // on back button
         var app = this;
-        window.location.hash = this.Hash; // set default hash
+        window.location.hash = '#inicio'; // set default hash
         window.addEventListener('hashchange', (e) => {
             if (window.location.hash === '#inicio') {
                 app.goToHomePage();
