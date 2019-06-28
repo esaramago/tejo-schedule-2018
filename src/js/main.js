@@ -7,6 +7,7 @@ const App = {
     //Now: new Date(2019, 5-1, 4, 23, 0),
     //Now: new Date(2019, 5-1, 5, 0, 1),
     //Now: new Date(2019, 5-1, 5, 3, 0),
+    //Now: new Date(2019, 5-1, 1, 22, 0), //holiday
     Holidays: [],
 
     PageId: null,
@@ -48,7 +49,7 @@ const App = {
         this.goToDefaultPage();
 
         // get data
-        //this.getHolidays();
+        this.getHolidays();
         this.Current.Hub.forEach((way, index) => {
             this.getDayOfWeek(way);
             this.getNextTime(index);
@@ -63,6 +64,15 @@ const App = {
 
     // GET/SET
     getHolidays() {
+
+        var year = this.Now.getFullYear();
+        this.Data.holidays.forEach(holiday => {
+            holiday.date = new Date(year + '/' + holiday.date);
+            this.Holidays.push(holiday);
+        });
+
+
+        /*
         var vm = this;
         var Http = new XMLHttpRequest();
         var url = `http://services.sapo.pt/Holiday/GetNationalHolidays?year=${this.Now.getFullYear()}`;
@@ -71,9 +81,9 @@ const App = {
         Http.onreadystatechange = (e) => {
             if (Http.responseText) {
                 vm.Holidays = new DOMParser().parseFromString(Http.responseText, "text/xml");
-                console.log(vm.Holidays.getElementsByTagName("Holiday")[0].querySelector("Date")/* .nodeValue */);
+                //console.log(vm.Holidays.getElementsByTagName("Holiday")[0].querySelector("Date")/* .nodeValue *);
             }
-        }
+        } */
     },
     getDayOfWeek(way) {
 
@@ -198,16 +208,22 @@ const App = {
     },
     getWeekday(date) {
 
-        var weekday = date.getDay();
+        // get weekday
+        const weekday = date.getDay();
+
+        // check if it is an holiday
+        var date = new Date(date); date.setHours(0, 0, 0, 0); // set midnight
+        const isHoliday = this.Holidays.findIndex(holiday => date.getTime() === holiday.date.getTime()) > -1;
+
         var dayOfWeek;
-        if (weekday >= 1 && weekday <= 5) {
+        if (isHoliday || weekday == 0) { // check if it is an holiday or sunday (must be first)
+            dayOfWeek = 'sunday';
+        }
+        else if (weekday >= 1 && weekday <= 5) {
             dayOfWeek = 'weekday';
         }
         else if (weekday == 6) {
             dayOfWeek = 'saturday';
-        }
-        else if (weekday == 0) {
-            dayOfWeek = 'sunday';
         }
 
         return dayOfWeek;

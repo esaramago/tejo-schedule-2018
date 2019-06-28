@@ -13,6 +13,57 @@
             "label": "Domingos e Feriados"
         }
     ],
+    "holidays": [
+        {
+            "name": "Ano Novo",
+            "date": "01/01"
+        },
+        {
+            "name": "Dia da Liberdade",
+            "date": "04/25"
+        },
+        {
+            "name": "Dia do Trabalhador",
+            "date": "05/01"
+        },
+        {
+            "name": "Dia de Camões, de Portugal e das Comunidades Portuguesas",
+            "date": "06/10"
+        },
+        {
+            "name": "Assunção de Nossa Senhora",
+            "date": "08/15"
+        },
+        {
+            "name": "Implantação da República",
+            "date": "10/05"
+        },
+        {
+            "name": "Dia de Todos os Santos",
+            "date": "11/01"
+        },
+        {
+            "name": "Restauração da Independência",
+            "date": "12/01"
+        },
+        {
+            "name": "Imaculada Conceição",
+            "date": "12/08"
+        },
+        {
+            "name": "Natal",
+            "date": "12/25"
+        },
+
+        {
+            "name": "Sexta-Feira Santa",
+            "date": "04/10"
+        },
+        {
+            "name": "Corpo de Deus",
+            "date": "06/11"
+        }
+    ],
     "barreiro": [
         {
             "way": "barreiro-terreiro",
