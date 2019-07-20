@@ -16,10 +16,13 @@ th.forEach((th, i) => {
 	var hour = th.textContent.replace('h', '');
 	tr.forEach((tr, j) => {
 		var minute = tr.querySelectorAll('td')[i].textContent.replace('*', '');
-		if (minute) {
+		if (minute && minute !== '—') {
 			var time = {
 				'h': hour,
 				'm': minute.replace(/\s/g, '')
+			}
+			if(hour >= 0 && hour < 5) {
+            	time.am = true; // add 'am', if agter midnight
 			}
 			times.push(time);
 		}
