@@ -12,7 +12,6 @@ var times = [];
 var th = $0.querySelector('thead').querySelectorAll('td');
 var tr =  $0.querySelector('tbody').querySelectorAll('tr');
 th.forEach((th, i) => {
-	//debugger
 	var hour = th.textContent.replace('h', '');
 	tr.forEach((tr, j) => {
 		var minute = tr.querySelectorAll('td')[i].textContent.replace('*', '');
