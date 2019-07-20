@@ -1,12 +1,38 @@
+{% set id = "about" %}
 {% extends "html/includes/layout.njk" %}
 {% block content %}
-    <div class="o-page is-active" aria-hidden="false">
+    <div id="homePage" class="o-page is-active" aria-hidden="false">
+
+        <link rel="stylesheet" href="css/components.head.css" />
         <header class="c-header">
-            <h1 class="c-heading-1">Horários Tejo</h1>
+            <a href="./index.html" class="c-button--icon js-goto-home">
+                <svg class="c-icon" viewBox="0 0 16 16" preserveAspectRatio="xMidYMid meet">
+                    <title>Voltar</title>
+                    <path d="M16,7H3.8l5.6-5.6L8,0L0,8l8,8l1.4-1.4L3.8,9H16V7z" />
+                </svg>
+            </a>
+            <h2 class="c-heading-1">Sobre a aplicação</h2>
+            {% include 'html/includes/hamburger.njk' %}
         </header>
-        <main class="o-main">
-            <h2>Sobre</h2>
-            <a href="/" class="c-button">Ir para a página principal.</a>
+        <main class="o-main u-full-height">
+            <h3 class="c-heading-2">O que é?</h3>
+            <p>Horários das travessias fluviais da <a href="https://ttsl.pt/" target="_blank" class="c-link">Transtejo Soflusa</a>, entre Lisboa e a Margem Sul do Tejo.</p>
+            
+            <h3 class="c-heading-2">Porquê?</h3>
+            <p>Deve haver uma forma mais fácil de consultar os horários da Transtejo Soflusa, sem ser através do seu site.<br>Com a aplicação Horários Tejo consegue, rapidamente, saber qual o horário das próximas travessias, bem como o horário completo. Mesmo sem internet.</p>
+
+            <h3 class="c-heading-2">Autor</h3>
+            <p><a href="https://www.linkedin.com/in/emanuelsaramago/" target="_blank" class="c-link" title="LinkedIn de Emanuel Saramago">Emanuel Saramago</a> é um barreirense a viver em Lisboa. Passou muitos anos a atravessar o rio, diariamente, como tantos habitantes da Margem Sul do Tejo.<br>Como designer, foi isso que o fez criar esta aplicação.</p>
+            
+            <h3 class="c-heading-2">Contacto</h3>
+            <p>Para apoio técnico e sugestões, contactar <a href="mailto:emanuelsaramago@gmail.com" target="_blank" class="c-link">emanuelsaramago@gmail.com</a></p>
+
+            <h3 class="c-heading-2">Código fonte da aplicação</h3>
+            <p><a href="https://github.com/esaramago/tejo-schedule-2019/" target="_blank" class="c-link">GitHub</a></p>
+            
+            <h3 class="c-heading-2">Advertência</h3>
+            <p>A informação apresentada nesta aplicação serve apenas como referência. Ainda que a aplicação seja atuzalizada com frequência, o autor não se responsabilizará por qualquer erro.</p>
         </main>
     </div>
+
 {% endblock %}

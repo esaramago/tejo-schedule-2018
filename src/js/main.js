@@ -46,15 +46,21 @@ const App = {
         this.PageId = document.body.dataset.pageId;
         this.Current.Hub = this.Data[this.PageId];
 
-        this.goToDefaultPage();
+        if (this.Current.Hub) { // check if is a scheduler page
 
-        // get data
-        this.getHolidays();
-        this.Current.Hub.forEach((way, index) => {
-            this.getDayOfWeek(way);
-            this.getNextTime(index);
-        });
-        this.createNavigation();
+            this.goToDefaultPage();
+            
+            // get data
+            this.getHolidays();
+            this.Current.Hub.forEach((way, index) => {
+                this.getDayOfWeek(way);
+                this.getNextTime(index);
+            });
+
+            this.createNavigation();
+        }
+
+        this.setNavigationEvents();
 
         // show hidden elements
         this.DOM.Waiting.forEach(el => {
@@ -230,7 +236,7 @@ const App = {
     },
 
     // EVENTS
-    createNavigation() {
+    setNavigationEvents() {
 
         document.addEventListener('click', (event) => {
 
@@ -255,12 +261,14 @@ const App = {
                 this.goToHub(event.target);
             }
 
-            // check if clicked elements is not nav
+            // check if clicked elements are not nav
             if (event.target !== nav && !nav.contains(event.target) && !clickedElement.matches('.js-toggle-nav')) {
                 nav.classList.remove('is-open');
             }
 
         }, false);
+    },
+    createNavigation() {
 
         // on back button
         var app = this;
