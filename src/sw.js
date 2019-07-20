@@ -1,15 +1,16 @@
 // Credits: https://airhorner.com
 
-const version = "0.1.1";
+const version = "1.0.1";
 const cacheName = `horariostejo-${version}`;
 self.addEventListener('install', e => {
     e.waitUntil(
         caches.open(cacheName).then(cache => {
             return cache.addAll([
-                `/`,
+                //`/`,
                 `/index.html`,
-                `/404.html`,
                 `/seixal.html`,
+                `/montijo.html`,
+                `/404.html`,
                 `/css/base.css`,
                 `/css/components.head.css`,
                 `/css/components.body.css`,
