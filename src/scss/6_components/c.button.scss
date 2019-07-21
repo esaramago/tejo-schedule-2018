@@ -6,6 +6,6 @@
 .c-button--icon {
     position: relative;
     z-index: 1; // keep button in front of other elements
-    padding: var(--gap-sm);
-    margin: calc(var(--gap-sm) * -1);
+    padding: var(--gap-xs);
+    margin: calc(var(--gap-xs) * -1);
 }
