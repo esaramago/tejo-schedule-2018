@@ -67,6 +67,8 @@ const App = {
         this.DOM.Waiting.forEach(el => {
             el.classList.remove('is-waiting');
         });
+
+        this.highlightNav();
     },
 
     // GET/SET
@@ -385,6 +387,16 @@ const App = {
         // go to page
         var url = (hub) ? `${hub}.html` : '';
         window.location = './' + url;
+    },
+    highlightNav() {
+        var pageId = document.body.dataset.pageId;
+        var navLink = document.querySelector('.js-nav-link[data-target="' + pageId +'"]');
+        if(navLink) {
+            navLink.classList.add('is-active');
+        }
+        else {
+            document.querySelector('.js-nav-link').classList.add('is-active');
+        }
     }
 }
 
