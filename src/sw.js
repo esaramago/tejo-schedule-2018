@@ -1,6 +1,6 @@
 // Credits: https://airhorner.com
 
-const version = "1.1.1";
+const version = "1.1.2";
 const cacheName = `horariostejo-${version}`;
 self.addEventListener('install', e => {
     e.waitUntil(
