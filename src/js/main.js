@@ -32,6 +32,7 @@ const App = {
             Schedule: document.getElementById('schedulePage')
         },
         Itineraries: document.querySelectorAll('.js-next-time'),
+        ItinerariesIcons: document.querySelectorAll('.js-next-time-icon'),
         Title: document.querySelector('.js-title'),
         Schedules: document.querySelectorAll('.js-schedule'),
         Tabs: document.querySelectorAll('.js-tab'),
@@ -206,6 +207,7 @@ const App = {
 
                 // Set next time
                 this.DOM.Itineraries[index].textContent = dateTime.toLocaleTimeString('PT-pt', { hour: 'numeric', minute: "2-digit" }) // Populate itineraries
+                this.DOM.ItinerariesIcons[index].classList.remove('is-loading');
                 return time.isNext = true;
 
             };
